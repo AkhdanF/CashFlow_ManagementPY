@@ -1,0 +1,11 @@
+Ubah Code
+self.db_connection = mysql.connector.connect(
+            host="localhost",
+            user="your_user",
+            password="your_password",
+            database="money_management"
+        )
+
+menggunakan connector sendiri juga buat db money_management dan jalankan app seperti biasa
+
+bisa memasukan nama lalu masukan harganya dan bisa submit expense maupun income menggunakan tombol yang ada
