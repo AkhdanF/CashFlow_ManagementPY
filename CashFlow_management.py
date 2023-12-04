@@ -4,7 +4,7 @@ import mysql.connector
 
 
 class MoneyManagementApp:
-def __init__(self, master):
+    def __init__(self, master):
         self.master = master
         self.master.title("Money Management App")
         self.master.geometry("600x400")
@@ -12,25 +12,25 @@ def __init__(self, master):
         self.balance = 0.0
         self.transactions = []  
 
-        self.balance_label = tk.Label(self.master, text="Balance: $0.00", font="Arial", 14)
+        self.balance_label = tk.Label(self.master, text="Balance: $0.00", font=("Arial", 14))
         self.balance_label.pack(pady=10)
 
-        self.name_label = tk.Label(self.master, text="Name:", font="Arial", 12)
+        self.name_label = tk.Label(self.master, text="Name:", font=("Arial", 12))
         self.name_label.pack(pady=5)
 
-        self.name_entry = tk.Entry(self.master, width=20, font="Arial", 12)
+        self.name_entry = tk.Entry(self.master, width=20, font=("Arial", 12))
         self.name_entry.pack(pady=5)
 
-        self.amount_label = tk.Label(self.master, text="Amount:", font="Arial", 12)
+        self.amount_label = tk.Label(self.master, text="Amount:", font=("Arial", 12))
         self.amount_label.pack(pady=5)
 
-        self.amount_entry = tk.Entry(self.master, width=20, font="Arial", 12)
+        self.amount_entry = tk.Entry(self.master, width=20, font=("Arial", 12))
         self.amount_entry.pack(pady=5)
 
-        self.add_income_button = tk.Button(self.master, text="Add Income", command=self.add_income, font="Arial", 12)
+        self.add_income_button = tk.Button(self.master, text="Add Income", command=self.add_income, font=("Arial", 12))
         self.add_income_button.pack(pady=5)
 
-        self.add_expense_button = tk.Button(self.master, text="Add Expense", command=self.add_expense, font="Arial", 12)
+        self.add_expense_button = tk.Button(self.master, text="Add Expense", command=self.add_expense, font=("Arial", 12))
         self.add_expense_button.pack(pady=5)
 
         self.tree = ttk.Treeview(self.master, columns=("Name", "Amount", "Type"), show="headings")
@@ -47,6 +47,20 @@ def __init__(self, master):
         )
 
         self.cursor = self.db_connection.cursor()
+        
+        self.create_table()
+
+    def create_table(self):
+        create_table_query = """
+            CREATE TABLE IF NOT EXISTS items (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(255) NOT NULL,
+                amount DECIMAL(10, 2) NOT NULL,
+                type VARCHAR(10) NOT NULL
+            )
+        """
+        self.cursor.execute(create_table_query)
+        self.db_connection.commit()
 
     def update_balance_label(self):
         self.balance_label.config(text=f"Balance: ${self.balance:.2f}")
@@ -57,7 +71,7 @@ def __init__(self, master):
     def add_expense(self):
         self.add_transaction("Expense")
 
-def add_transaction(self, transaction_type):
+    def add_transaction(self, transaction_type):
         try:
             name = self.name_entry.get()
             amount = float(self.amount_entry.get())
@@ -76,15 +90,15 @@ def add_transaction(self, transaction_type):
             self.name_entry.delete(0, 'end')
             self.amount_entry.delete(0, 'end')
 
-except ValueError as e:
-            messagebox.showerror("Error", Invalid input: {e}")
+        except ValueError as e:
+            messagebox.showerror("Error", f"Invalid input: {e}")
 
     def update_transaction_table(self):
-for row in self.tree.get_children():
+        for row in self.tree.get_children():
             self.tree.delete(row)
 
-for transactions in self.transactions:
-if transaction["Type"] == "Income":
+        for transaction in self.transactions:
+            if transaction["Type"] == "Income":
                 bg_color = "#B2FF66"
                 font_color = "#000000"
             else:
