@@ -9,3 +9,6 @@ self.db_connection = mysql.connector.connect(
 menggunakan connector sendiri juga buat db money_management dan jalankan app seperti biasa
 
 bisa memasukan nama lalu masukan harganya dan bisa submit expense maupun income menggunakan tombol yang ada
+
+berikut adalah video cara menggunakan applikasinya
+
